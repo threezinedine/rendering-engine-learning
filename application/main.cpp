@@ -1,4 +1,5 @@
 #include "core.h"
+#include "graphics.h"
 #include <GLFW/glfw3.h>
 #include <cstdio>
 
@@ -15,6 +16,8 @@ int main(void)
 	NTT_LOG_DEBUG("GLFW window created successfully");
 
 	glfwMakeContextCurrent(window);
+
+	load_model(STRINGIFY(BASE_DIR) "/asset/twin-pots/twin-pots.gltf");
 
 	while (!glfwWindowShouldClose(window))
 	{

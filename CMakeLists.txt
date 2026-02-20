@@ -5,6 +5,7 @@ project(RenderingEngine)
 include(cmake/package.cmake)
 
 set(CORE_DIR "${CMAKE_SOURCE_DIR}/core")
+set(GRAPHICS_DIR "${CMAKE_SOURCE_DIR}/graphics")
 set(APP_DIR "${CMAKE_SOURCE_DIR}/application")
 
 file(
@@ -17,6 +18,18 @@ file(
     GLOB_RECURSE
     CORE_HEADER_FILES
     "${CORE_DIR}/*.h"
+)
+
+file(
+    GLOB_RECURSE 
+    GRAPHICS_SOURCE_FILES
+    "${GRAPHICS_DIR}/*.cpp"
+)
+
+file(
+    GLOB_RECURSE
+    GRAPHICS_HEADER_FILES
+    "${GRAPHICS_DIR}/*.h"
 )
 
 file(
@@ -35,6 +48,8 @@ add_executable(
     ${PROJECT_NAME}
     ${APP_SOURCE_FILES}
     ${APP_HEADER_FILES}
+    ${GRAPHICS_SOURCE_FILES}
+    ${GRAPHICS_HEADER_FILES}
     ${CORE_SOURCE_FILES}
     ${CORE_HEADER_FILES}
 )
@@ -65,6 +80,11 @@ add_package(
     URL     https://github.com/gabime/spdlog.git
 )
 
+add_package(
+    PACKAGE stb
+    URL https://github.com/threezinedine/stb.git
+)
+
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE
@@ -73,6 +93,7 @@ target_link_libraries(
     nlohmann_json
     tinygltf
     spdlog
+    stb
 )
 
 target_include_directories(
@@ -80,4 +101,11 @@ target_include_directories(
     PRIVATE
     ${CORE_DIR}
     ${APP_DIR}
+    ${GRAPHICS_DIR}
+)
+
+target_compile_definitions(
+    ${PROJECT_NAME}
+    PRIVATE
+    BASE_DIR=${CMAKE_SOURCE_DIR}
 )

@@ -27,3 +27,6 @@ typedef unsigned char byte;
 			std::abort();                                                                                              \
 		}                                                                                                              \
 	} while (0)
+
+#define STRINGIFY(x)  _STRINGIFY(x)
+#define _STRINGIFY(x) #x
