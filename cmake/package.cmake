@@ -1,11 +1,22 @@
-macro(add_package package_name git_url)
+macro(add_package)
+    set(options )
+    set(requires PACKAGE URL BRANCH)
+    set(multi )
+
+    cmake_parse_arguments(ARG "${options}" "${requires}" "${multi}" ${ARGN})
+
     include(FetchContent)
 
+    if (NOT ARG_BRANCH)
+        set(ARG_BRANCH "master")
+    endif()
+
     FetchContent_Declare(
-        ${package_name}
-        GIT_REPOSITORY ${git_url}
-        SOURCE_DIR ${CMAKE_SOURCE_DIR}/externals/${package_name}
+        ${ARG_PACKAGE}
+        GIT_REPOSITORY ${ARG_URL}
+        GIT_TAG ${ARG_BRANCH}
+        SOURCE_DIR ${CMAKE_SOURCE_DIR}/externals/${ARG_PACKAGE}
     )
 
-    FetchContent_MakeAvailable(${package_name})
+    FetchContent_MakeAvailable(${ARG_PACKAGE})
 endmacro()
